@@ -2,57 +2,53 @@ class ProjectController < AppController
 
     set :views, './app/views'
 
-    # @method: Display a small welcome message
-    get '/hello' do
-        "Our very first controller"
-    end
-
-    # @method: Add a new TO-DO to the DB
-    post '/project/create' do
+    # Add a new project to the database
+    post '/projects/create' do
+        data = JSON.parse(request.body.read)
         begin
-            project = Project.create( self.data(create: true) )
-            json_response(code: 201, data: project)
+            project = Project.create(data)
+            
+            project.to_json
+
         rescue => e
-            json_response(code: 422, data: { error: e.message })
+            { error: e.message }.to_json
         end
+
     end
 
-    # @method: Display all projects
-    get '/project' do
-        project = Project.all
-        json_response(data: projects)
+    # Display all projects
+    get '/projects' do
+        projects = Project.all
+        projects.to_json
     end
 
-    # @view: Renders an erb file which shows all projects
-    # erb has content_type because we want to override the default set above
-    get '/' do
-        @projects = Project.all.map { |todo|
-          {
-            project: project,
-            badge: project_status_badge(project.status)
-          }
-        }
-        @i = 1
-        erb_response :projects
+
+# gets the projects associated by a specific user
+    get '/user/projects/:id' do
+
+        user = User.find(params[:id].to_i)
+        userProjects = user.projects
+        userProjects.to_json
+
     end
 
-    # @method: Update existing TO-DO according to :id
-    put '/project/update/:id' do
+    # Update existing project according to :id
+    put '/projects/update/:id' do
         begin
             project = Project.find(self.project_id)
             project.update(self.data)
-            json_response(data: { message: "project updated successfully" })
+            json_response(data: { message: "todo updated successfully" })
         rescue => e
             json_response(code: 422 ,data: { error: e.message })
         end
     end
 
-    # @method: Delete TO-DO based on :id
-    delete '/project/destroy/:id' do
+    # Delete project based on :id
+    delete '/projects/destroy/:id' do
         begin
             project = Project.find(self.project_id)
             project.destroy
-            json_response(data: { message: "project deleted successfully" })
+            json_response(data: { message: "todo deleted successfully" })
         rescue => e
           json_response(code: 422, data: { error: e.message })
         end
@@ -65,7 +61,7 @@ class ProjectController < AppController
     def data(create: false)
         payload = JSON.parse(request.body.read)
         if create
-            payload["createdAt"] = Time.now
+            payload["create_ast"] = Time.now
         end
         payload
     end
