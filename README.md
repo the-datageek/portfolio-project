@@ -160,8 +160,6 @@ Database schema definitions.
 7. DELETE `/project/delete/:id` - Delete a Project item based on its :id.
 8. URL:`/view/project` - Render a table of all Projects done using Bootstrap and ERB
 
-![Project Table](screens/project_table.png)
-![User Table](screens/user_table.png)
 
 ## LICENSE
 This repository is distributed under the MIT License
