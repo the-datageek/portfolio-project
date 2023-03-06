@@ -1,5 +1,7 @@
 source "https://rubygems.org"
 
+ruby '3.0.3'
+
 gem 'sinatra', '~> 3.0', '>= 3.0.5'
 
 gem 'sinatra-cross_origin', '~> 0.4.0'
@@ -26,7 +28,7 @@ end
 group :test do
     gem 'rack-test', '~> 2.0', '>= 2.0.2'
     gem 'rspec', '~> 3.12'
-    gem 'faker'
+   
 end
 
 

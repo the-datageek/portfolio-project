@@ -86,5 +86,8 @@ DEPENDENCIES
   sinatra-cross_origin (~> 0.4.0)
   sqlite3 (~> 1.6, >= 1.6.1)
 
+RUBY VERSION
+   ruby 3.0.3p157
+
 BUNDLED WITH
    2.2.32
